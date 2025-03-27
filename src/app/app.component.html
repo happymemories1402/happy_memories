@@ -1,0 +1,152 @@
+<div class="booking-wrapper">
+  <!-- Left Side: Booking Details -->
+  <div class="booking-container">
+    <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
+      <!-- Booking Details -->
+      <div class="section">
+        <h3>Booking Details</h3>
+
+        <div class="form-group">
+          <label>Booking Name <span class="error">*</span> </label>
+          <input formControlName="bookingName" type="text" required />
+          <div *ngIf="bookingForm.controls['bookingName'].touched && bookingForm.controls['bookingName'].invalid" class="error">
+            Required.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Number of People</label>
+          <div class="counter">
+            <button type="button" (click)="decrement()">-</button>
+            <input formControlName="peopleCount" type="text" readonly />
+            <button type="button" (click)="increment()">+</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>WhatsApp Number <span class="error">*</span> </label>
+          <input formControlName="whatsappNumber" type="text" required />
+          <div *ngIf="bookingForm.controls['whatsappNumber'].touched && bookingForm.controls['whatsappNumber'].invalid" class="error">
+            Required.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email <span class="error">*</span> </label>
+          <input formControlName="email" type="email" />
+          <div *ngIf="bookingForm.controls['email'].touched && bookingForm.controls['email'].invalid" class="error">
+            Required.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Occasion <span class="error">*</span> </label>
+          <select formControlName="occasion">
+            <option *ngFor="let occasion of occasions" [value]="occasion">
+              {{ occasion }}
+            </option>
+          </select>
+          <div *ngIf="bookingForm.controls['occasion'].touched && bookingForm.controls['occasion'].invalid" class="error">
+            Required.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Room type <span class="error">*</span> </label>
+          <select formControlName="roomType" (change)="onRoomTypeSelect($event)">
+            <option value="">Select Room</option>
+            <option *ngFor="let room of rooms" [value]="room.name + '-' + room.price">
+              {{ room.name }} - Rs. {{ room.price }}
+            </option>
+          </select>
+          <!-- Show validation message when field is empty -->
+          <div *ngIf="bookingForm.controls['roomType'].touched && bookingForm.controls['roomType'].invalid" class="error">
+             Room selection is required.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Special Person Name</label>
+          <input formControlName="specialPerson" type="text" />
+        </div>
+
+        <div class="form-group">
+          <label>Message</label>
+          <textarea formControlName="message"></textarea>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Select a Date <span class="error">*</span> </label>
+        <input type="date" formControlName="selectedDate" [min]="today" (change)="onDateChange($event)"/>
+        <div *ngIf="bookingForm.controls['selectedDate'].touched && bookingForm.controls['selectedDate'].invalid" class="error">
+            Required.
+          </div>
+      </div>
+
+      <div class="form-group">
+        <label>Select a Time Slot <span class="error">*</span> </label>
+        <select formControlName="selectedSlot">
+          <option *ngFor="let slot of filteredSlots" [value]="slot.start + ' - ' + slot.end">
+            {{ slot.start }} - {{ slot.end }}
+          </option>
+        </select>
+        <div *ngIf="bookingForm.controls['selectedSlot'].touched && bookingForm.controls['selectedSlot'].invalid" class="error">
+            Required.
+          </div>
+      </div>
+
+      <!-- Add-ons Section -->
+      <div class="section">
+        <h3>Add Ons</h3>
+        <div class="form-group">
+          <label>Select a Cake</label>
+          <select (change)="onCakeSelect($event)">
+            <option value="">Select Cake</option>
+            <option *ngFor="let cake of cakes" [value]="cake.name + '-' + cake.price">
+              {{ cake.name }} - Rs. {{ cake.price }}
+            </option>
+          </select>
+        </div>
+
+        <div class="special-decor">
+          <h3>Special Decor</h3>
+          <div class="decor-grid">
+            <div *ngFor="let decor of specialDecor" class="decor-item">
+              <img [src]="decor.image" [alt]="decor.name" />
+              <p>{{ decor.name }}</p>
+              <p>Rs. {{ decor.price }}</p>
+              <input type="checkbox" (change)="toggleDecorSelection(decor, $event)" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Right Side: Booking Summary -->
+  <div class="booking-summary">
+    <h3>Booking Summary</h3>
+    <p>Number of People: {{ peopleCount }} (Rs. {{ peoplePrice }})</p>
+
+    <div *ngIf="selectedRoom">
+      <p>Room type: {{ selectedRoom.name }} - Rs. {{ selectedRoom.price }}</p>
+    </div>
+
+    <div *ngIf="selectedCake">
+      <p>Cake: {{ selectedCake.name }} - Rs. {{ selectedCake.price }}</p>
+    </div>
+
+    <div *ngIf="selectedDecors.length">
+      <p>Special Decor:</p>
+      <ul>
+        <li *ngFor="let decor of selectedDecors">
+          {{ decor.name }} - Rs. {{ decor.price }}
+        </li>
+      </ul>
+    </div>
+
+    <h4>Total Amount: Rs. {{ totalAmount }}</h4>
+    <button type="button"  (click)="onSubmit()">Book</button>
+  </div>
+</div>
