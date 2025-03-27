@@ -43,11 +43,11 @@ export class AppComponent {
   peoplePrice = 0;
   
   availableSlots = [
-    { start: '10:00am', end: '12:00pm' },
-    { start: '12:30pm', end: '14:30pm' },
-    { start: '15:00pm', end: '17:00pm' },
-    { start: '17:30pm', end: '19:30pm' },
-    { start: '20:00pm', end: '22:00pm' },
+    { start: '9:00am', end: '11:00am' },
+    { start: '11:30am', end: '1:30pm' },
+    { start: '2:00pm', end: '4:00pm' },
+    { start: '4:30pm', end: '6:30pm' },
+    { start: '7:00pm', end: '9:30pm' },
   ];
   filteredSlots: { start: string; end: string }[] = [];
   today: string = '';
