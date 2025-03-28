@@ -166,7 +166,7 @@ export class AppComponent {
 
   onSubmit() {
     if (this.bookingForm.invalid) {
-      alert("Please fill in all required fields!");
+      console.log("Please fill in all required fields!");
       return;
     }
 
@@ -182,19 +182,20 @@ export class AppComponent {
   }
 
   sendEmail(bookingDetails: any) {
-    console.log("Sending Email with booking details:", bookingDetails);
       const serviceID = 'service_2eie2bp';
       const templateID = 'template_tln5saz';
       const publicKey = 'eS0oAY2IJZYuBrpLP';
-  
+      console.log('bookingDetails: ', bookingDetails);
       const templateParams = {
-        to_email: bookingDetails.email, // Recipient email
+        to_email: bookingDetails.email,
         booking_name: bookingDetails.bookingName,
         whatsapp_number: bookingDetails.whatsappNumber,
         occasion: bookingDetails.occasion,
         people_count: bookingDetails.peopleCount,
-        selected_date: bookingDetails.selectedDate, // Add selected date
-        selected_slot: bookingDetails.selectedSlot, // Add selected time slot
+        special_person_name: bookingDetails.specialPerson,
+        message: bookingDetails.message,
+        selected_date: bookingDetails.selectedDate,
+        selected_slot: bookingDetails.selectedSlot,
         selected_room_type: bookingDetails.selectedRoom.name,
         selected_room_price: bookingDetails.selectedRoom.price,
         selected_cake: bookingDetails.selectedCake?.name || 'None',
@@ -203,16 +204,21 @@ export class AppComponent {
         decor_price: bookingDetails.selectedDecors?.reduce((sum: number, decor: { price: number }) => sum + decor.price, 0) || 0,
         total_amount: bookingDetails.totalAmount
       };
+
+      console.log('Template Params: ',templateParams);
+
+      window.location.href = '/assets/welcome.html';
   
-      emailjs.send(serviceID, templateID, templateParams, publicKey)
-        .then(response => {
-          console.log('Email sent successfully!', response);
-          alert('Booking confirmation email sent!');
-        })
-        .catch(error => {
-          console.error('Email sending failed:', error);
-          alert('Error sending email. Please try again.');
-        });
+      // emailjs.send(serviceID, templateID, templateParams, publicKey)
+      //   .then(response => {
+      //     console.log('Email sent successfully!', response);
+      //     window.location.href = '/assets/welcome.html';
+      //     //alert('Booking confirmation email sent!');
+      //   })
+      //   .catch(error => {
+      //     console.error('Email sending failed:', error);
+      //     alert('Error sending email. Please try again.');
+      //   });
   }
   
 }
