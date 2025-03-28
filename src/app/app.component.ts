@@ -29,7 +29,7 @@ export class AppComponent {
   specialDecor = [
     { name: 'Fog Entry', price: 500, image: 'assets/Matka.png' },
     { name: 'Balloon Decoration', price: 700, image: 'assets/Matka.png' },
-    { name: 'Flower Garland', price: 600, image: 'assets/flower-garland.png' },
+    { name: 'Flower Garland', price: 600, image: 'assets/Matka.png' },
     { name: 'LED Lights Setup', price: 800, image: 'assets/led-lights.png' },
     { name: 'Red Carpet Entry', price: 1000, image: 'assets/red-carpet.png' },
     { name: 'Table Centerpieces', price: 900, image: 'assets/table-centerpiece.png' }
